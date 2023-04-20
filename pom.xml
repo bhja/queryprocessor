@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <artifactId>immutable</artifactId>
+  <dependencies>
+    <dependency>
+      <artifactId>value</artifactId>
+      <groupId>org.immutables</groupId>
+      <version>2.9.2</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/jdbc.sybase/jconnect -->
+    <dependency>
+      <artifactId>jconn4</artifactId>
+      <groupId>sybase</groupId>
+      <version>4.0</version>
+    </dependency>
+
+    <dependency>
+      <artifactId>slf4j-api</artifactId>
+      <groupId>org.slf4j</groupId>
+      <version>1.7.26</version>
+    </dependency>
+    <dependency>
+      <artifactId>log4j-core</artifactId>
+      <groupId>org.apache.logging.log4j</groupId>
+      <version>2.20.0</version>
+    </dependency>
+    <dependency>
+      <artifactId>log4j-slf4j-impl</artifactId>
+      <groupId>org.apache.logging.log4j</groupId>
+      <version>2.20.0</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+    <dependency>
+      <artifactId>gson</artifactId>
+      <groupId>com.google.code.gson</groupId>
+      <version>2.8.9</version>
+    </dependency>
+
+    <dependency>
+      <artifactId>rxjava</artifactId>
+      <groupId>io.reactivex.rxjava2</groupId>
+      <version>2.2.2</version>
+    </dependency>
+
+    <dependency>
+      <artifactId>value</artifactId>
+      <groupId>org.immutables</groupId>
+      <version>2.9.2</version>
+    </dependency>
+
+    <dependency>
+      <artifactId>log4j-api</artifactId>
+      <groupId>org.apache.logging.log4j</groupId>
+      <version>2.15.0</version>
+    </dependency>
+    <dependency>
+      <artifactId>log4j-core</artifactId>
+      <groupId>org.apache.logging.log4j</groupId>
+      <version>2.15.0</version>
+    </dependency>
+    <dependency>
+      <artifactId>log4j-slf4j-impl</artifactId>
+      <groupId>org.apache.logging.log4j</groupId>
+      <version>2.15.0</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
+    <dependency>
+      <artifactId>guava</artifactId>
+      <groupId>com.google.guava</groupId>
+      <version>31.0.1-jre</version>
+    </dependency>
+
+
+    <dependency>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <groupId>org.junit.jupiter</groupId>
+      <scope>test</scope>
+      <version>5.9.2</version>
+    </dependency>
+
+    <dependency>
+      <artifactId>HikariCP</artifactId>
+      <groupId>com.zaxxer</groupId>
+      <version>5.0.1</version>
+    </dependency>
+  </dependencies>
+  <groupId>org.example</groupId>
+  <modelVersion>4.0.0</modelVersion>
+  <properties>
+    <maven.compiler.source>11</maven.compiler.source>
+    <maven.compiler.target>11</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <version>1.0-SNAPSHOT</version>
+
+
+</project>
