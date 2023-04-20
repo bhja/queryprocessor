@@ -6,7 +6,8 @@ sql: 'SELECT * from MESSAGE where id = ? '
 queryParams: [
   {
     value: 1000,
-    position: 1
+    position: 1,
+    type: "integer"
   },
   {
 
