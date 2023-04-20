@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -86,51 +87,54 @@ public class StandardSybaseClient {
   public CompletableFuture<SybaseQueryResults> execSybaseQuery(String query,
       List<QueryParam> params,
       boolean isCallable)
-      throws Exception {
+  {
 
+    return CompletableFuture.supplyAsync(()-> {
+      Connection connection = null;
 
-    Connection connection = null;
-
-    ImmutableSybaseQueryResults.Builder queryResults = ImmutableSybaseQueryResults.builder();
-    List<JsonObject> results = new ArrayList<>();
-    Statement statement = null;
-    try {
-      connection = getDataSource().getConnection();
-      ResultSet resultSet;
-      if (isCallable) {
-        statement = connection.prepareCall(query);
-        setParameters(connection, statement, params);
-        resultSet = ((CallableStatement) statement).executeQuery();
-      } else {
-        if (params == null || params.isEmpty()) {
-          queryResults.resolvedQuery(query);
-          resultSet = connection.createStatement().executeQuery(query);
-        } else {
-          statement = connection.prepareStatement(query);
+      ImmutableSybaseQueryResults.Builder queryResults = ImmutableSybaseQueryResults.builder();
+      List<JsonObject> results = new ArrayList<>();
+      Statement statement = null;
+      try {
+        connection = getDataSource().getConnection();
+        ResultSet resultSet;
+        if (isCallable) {
+          statement = connection.prepareCall(query);
           setParameters(connection, statement, params);
-          //TODO - Executed query cannot be obtained. We can only print it out.
-          resultSet = ((PreparedStatement) statement).executeQuery();
+          resultSet = ((CallableStatement) statement).executeQuery();
+        } else {
+          if (params == null || params.isEmpty()) {
+            queryResults.resolvedQuery(query);
+            resultSet = connection.createStatement().executeQuery(query);
+          } else {
+            statement = connection.prepareStatement(query);
+            setParameters(connection, statement, params);
+            //TODO - Executed query cannot be obtained. We can only print it out.
+            resultSet = ((PreparedStatement) statement).executeQuery();
+          }
+        }
+        queryResults.resolvedQuery(buildQueryDetails(query, params));
+        ResultSetMetaData metaData = resultSet.getMetaData();
+        while (resultSet.next()) {
+          results.add(getRow(metaData, resultSet));
+        }
+      } catch (Exception ex) {
+        throw new RuntimeException(
+            "Could not execute the query due to [ " + ex.getMessage() + " ] ");
+      } finally {
+
+        try{ if (statement != null) {
+          statement.close();
+        }
+        if (connection != null) {
+            connection.close();
+          }} catch (SQLException e) {
+            throw new RuntimeException(e);
         }
       }
-      queryResults.resolvedQuery(buildQueryDetails(query, params));
-      ResultSetMetaData metaData = resultSet.getMetaData();
-      while (resultSet.next()) {
-        results.add(getRow(metaData, resultSet));
-      }
-    } catch (Exception ex) {
-      throw new RuntimeException("Could not execute the query due to [ " + ex.getMessage() + " ] ");
-    } finally {
-      //Closing all the connections.
-      if (statement != null) {
-        statement.close();
-      }
-      if (connection != null) {
-        connection.close();
-      }
-    }
-    queryResults.results(results);
-    //  return queryResults.build();
-    return CompletableFuture.completedFuture(queryResults.build());
+      queryResults.results(results);
+        return queryResults.build();
+    });
   }
 
 

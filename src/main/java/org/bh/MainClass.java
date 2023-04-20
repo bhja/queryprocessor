@@ -20,7 +20,7 @@ public class MainClass {
 
     SybaseQueryResults result = processor.runQuery("select * from model.dbo.TEST where id=?",
         Collections.singletonList(param), false);
-    logger.info("%s",result);
+    logger.info("{}",result);
   }
 
 

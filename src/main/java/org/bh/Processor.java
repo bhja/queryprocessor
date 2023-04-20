@@ -14,9 +14,9 @@ public class Processor {
 
   public SybaseQueryResults runQuery(String query, List<QueryParam> params, boolean isCallableStmt)
       throws Exception {
-    Single<SybaseQueryResults> resultsSingle = Single.fromFuture(
-        client.execSybaseQuery(query, params, isCallableStmt)).to(v -> v);
-    return resultsSingle.blockingGet();
+
+    return client.execSybaseQuery(query, params, isCallableStmt).get();
+
   }
 
 
